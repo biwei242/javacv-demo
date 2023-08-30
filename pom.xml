@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.demo</groupId>
+  <artifactId>liverd-javacv-demo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>liverd-javacv-demo</name>
+
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.20</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-to-slf4j</artifactId>
+      <version>2.13.3</version>
+    </dependency>
+
+    <!-- javacv相关依赖，一个就够了 -->
+    <dependency>
+      <groupId>org.bytedeco</groupId>
+      <artifactId>javacv-platform</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+
+    <!-- 1.5.6版本的JavaCV后运行报avcodec_open2() error -1:Could not open video codec
+     原因：这是因为1.5.6开始javacv不再默认包含gpl许可协议的编解码库，涉及到的库包含：libx264、libx265等等。
+     使用h264在默认情况下，ffmpeg会使用cisco(思科)的openh264编解码库，所以h264也不受影响，除非你要使用libx264，则必须在原有基础上添加下述依赖项。
+     -->
+    <dependency>
+      <groupId>org.bytedeco</groupId>
+      <artifactId>ffmpeg-platform-gpl</artifactId>
+      <version>4.4-1.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.cverges</groupId>
+      <artifactId>expect4j</artifactId>
+      <version>1.9</version>
+    </dependency>
+  </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>nexus-dy</id>
+      <name>lib-releases</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-dy</id>
+      <name>lib-snapshots</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
+
+
