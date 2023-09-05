@@ -1,8 +1,6 @@
 package com.demo;
 
-import expect4j.Expect4j;
-import expect4j.matches.EofMatch;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bytedeco.javacpp.Loader;
@@ -19,7 +17,9 @@ public class 录屏推流 {
     public static void desktopRecord() throws Exception {
 
         String ffmpeg = Loader.load(org.bytedeco.ffmpeg.ffmpeg.class);
-        ProcessBuilder pb = new ProcessBuilder(ffmpeg, "-re",
+        ProcessBuilder pb = new ProcessBuilder(ffmpeg,
+                "-re",
+                "-y",
                 "-f", "gdigrab",
                 "-framerate", "25",
                 "-video_size", "1920x1080",
@@ -30,12 +30,22 @@ public class 录屏推流 {
                 "-c:a", "aac",
                 "-preset","ultrafast",
                 "-strict", "2",
-                "-f", "flv",
-                "rtmp://推流地址"
+                "d:/vod/cmd_record.mp4"
         );
+        //pb.redirectErrorStream(true);
+        pb.redirectInput(ProcessBuilder.Redirect.INHERIT);  // 将标准输入流重定向到当前进程的标准输入流
 
         MyThread myThread = new MyThread(pb);
         myThread.start();
+        Thread.sleep(15000);
+//        OutputStream outputStream = myThread.getProcess().getOutputStream();
+//        outputStream.write("q".getBytes());
+//        outputStream.flush();
+//        Robot robot = new Robot();
+//        robot.keyPress(KeyEvent.VK_Q);
+//        robot.keyRelease(KeyEvent.VK_Q);
+        //Thread.sleep(2);
+        //myThread.getProcess().destroy();
     }
 
     @Getter
@@ -50,6 +60,7 @@ public class 录屏推流 {
         @SneakyThrows
         @Override
         public void run() {
+
             process = processBuilder.inheritIO().start();
             process.waitFor();
         }

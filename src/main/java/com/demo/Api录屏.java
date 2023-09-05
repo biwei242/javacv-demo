@@ -40,7 +40,7 @@ public class Api录屏 {
     //线程池 screenTimer
     private ScheduledThreadPoolExecutor screenTimer;
     //获取屏幕尺寸
-    private final Rectangle rectangle = new Rectangle(Constant.WIDTH, Constant.HEIGHT); // 截屏的大小
+    private final Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height); // 截屏的大小
     //视频类 FFmpegFrameRecorder
     private FFmpegFrameRecorder recorder;
     private Robot robot;
@@ -57,7 +57,7 @@ public class Api录屏 {
 
     public Api录屏(String fileName, boolean isHaveDevice) {
         // TODO Auto-generated constructor stub
-        recorder = new FFmpegFrameRecorder(fileName + ".mp4", Constant.WIDTH, Constant.HEIGHT);
+        recorder = new FFmpegFrameRecorder(fileName + ".mp4", Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height);
         // recorder.setVideoCodec(avcodec.AV_CODEC_ID_H265); // 28
         // recorder.setVideoCodec(avcodec.AV_CODEC_ID_FLV1); // 28
         recorder.setVideoCodec(avcodec.AV_CODEC_ID_MPEG4); // 13
@@ -143,7 +143,7 @@ public class Api录屏 {
                 // }
                 BufferedImage screenCapture = robot.createScreenCapture(rectangle); // 截屏
 
-                BufferedImage videoImg = new BufferedImage(Constant.WIDTH, Constant.HEIGHT,
+                BufferedImage videoImg = new BufferedImage(Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height,
                         BufferedImage.TYPE_3BYTE_BGR); // 声明一个BufferedImage用重绘截图
 
                 Graphics2D videoGraphics = videoImg.createGraphics();// 创建videoImg的Graphics2D
@@ -305,11 +305,7 @@ public class Api录屏 {
     }
 }
 
-class Constant {
-    public final static int WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-    public final static int HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-}
 
 
 
